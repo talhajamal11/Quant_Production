@@ -8,14 +8,11 @@ pd.set_option('display.max_columns', 500)
 
 if __name__ == '__main__':
     tickers = ['AMZN']
-    market_data = MarketData(tickers)
-    pricing = market_data.prccd('2022/01/01', '2023/01/22')
-    print(pricing.head())
+    market_data = MarketData(tickers, '2022/01/01', '2023/01/22')
+    print(market_data.prccd().head())
+    print(market_data.daily_returns(market_data.prccd()).head())
 
-    returns = market_data.daily_returns(pricing)
-    print(returns.head())
-
-    Momentum = Momentum(pricing)
+    Momentum = Momentum(market_data.prccd())
     print(Momentum.moving_averages().head())
     print(Momentum.momentum_factors().head())
 
