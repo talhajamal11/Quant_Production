@@ -14,6 +14,12 @@ class Momentum:
         m_avg.dropna(inplace=True)
         return m_avg
 
+    def ewm(self, column: str, n: float):
+        ewm = pd.DataFrame()
+        ewm["EMA"] = self.df[column].ewm(n).mean()
+        ewm.dropna()
+        return ewm
+
     def momentum_factors(self):
         mom_df = pd.DataFrame()
         mom_df["12M-1M Momentum"] = self.df["Adj Close"].shift(21) / self.df["Adj Close"].shift(252)

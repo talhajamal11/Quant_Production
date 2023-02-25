@@ -7,14 +7,25 @@ from MomentumFactors import Momentum
 pd.set_option('display.max_columns', 500)
 
 if __name__ == '__main__':
-    tickers = ['AMZN']
-    market_data = MarketData(tickers, '2022/01/01', '2023/01/22')
-    print(market_data.prccd().head())
-    print(market_data.daily_returns(market_data.prccd()).head())
+    # Specify Ticker and Start/Stop Dates
+    tickers = ['TSLA']
+    start = '2022/01/01'
+    stop = '2023/01/22'
 
-    Momentum = Momentum(market_data.prccd())
-    print(Momentum.moving_averages().head())
-    print(Momentum.momentum_factors().head())
+    # Load Market Data into Pricing and Return Tables
+    market_data = MarketData(tickers, start, stop)
+    prccd = market_data.prccd()
+    daily_returns = market_data.daily_returns(prccd)
+
+    # Initialize Momentum Class
+    momentum = Momentum(prccd)
+    moving_avg = momentum.moving_averages()
+    momentum_factors = momentum.moving_averages()
+
+    # EMA
+    ema = momentum.ewm("Adj Close", 0.5)
+    print(ema)
+    print(moving_avg)
 
 
 

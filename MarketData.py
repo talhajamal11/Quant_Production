@@ -5,14 +5,14 @@ import datetime as dt
 
 
 class MarketData:
-    def __init__(self, tickers: list, start: str, stop: str):
-        self.tickers = tickers
+    def __init__(self, tic, start: str, stop: str):
+        self.tic = tic
         self.start = dt.datetime.strptime(start, '%Y/%m/%d')
         self.stop = dt.datetime.strptime(stop, '%Y/%m/%d')
 
     def prccd(self):
         # This function returns a dataframe for the pricing and volume data for a single ticker
-        price_df = yf.download(self.tickers, self.start, self.stop)
+        price_df = yf.download(self.tic, self.start, self.stop)
         price_df.dropna(inplace=True)
         return price_df
 
