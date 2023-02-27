@@ -13,19 +13,22 @@ if __name__ == '__main__':
     stop = '2023/01/22'
 
     # Load Market Data into Pricing and Return Tables
-    market_data = MarketData(tickers, start, stop)
-    prccd = market_data.prccd()
-    daily_returns = market_data.daily_returns(prccd)
+    Tesla = MarketData(tickers, start, stop)
+    prccd = Tesla.prccd()
+    daily_returns = Tesla.daily_returns(prccd)
+    print(prccd.head())
+    print(daily_returns.head())
 
     # Initialize Momentum Class
-    momentum = Momentum(prccd)
-    moving_avg = momentum.moving_averages()
-    momentum_factors = momentum.moving_averages()
+    Tesla_Mom = Momentum(prccd)
+    moving_avg = Tesla_Mom.moving_averages()
+    print(moving_avg.head())
+    momentum_factors = Tesla_Mom.momentum_factors()
+    print(momentum_factors.head())
 
     # EMA
-    ema = momentum.ewm("Adj Close", 0.5)
+    ema = Tesla_Mom.ewm("Adj Close", 0.5)
     print(ema)
-    print(moving_avg)
 
 
 

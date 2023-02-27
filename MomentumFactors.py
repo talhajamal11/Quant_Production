@@ -26,3 +26,13 @@ class Momentum:
         mom_df["12M-2M Momentum"] = self.df["Adj Close"].shift(42) / self.df["Adj Close"].shift(252)
         mom_df.dropna(inplace=True)
         return mom_df
+
+
+    def RSI(self, n):
+        RSI = pd.DataFrame()
+        # Calculate Rolling Gains
+        if self.df["Adj Close"] > self.df["Adj Close"].shift(1):
+            rolling_gains = 10
+        else :
+            rolling_losses = 10
+        return RSI
