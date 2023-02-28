@@ -14,10 +14,10 @@ if __name__ == '__main__':
     # Load Market Data into Pricing and Return Tables
     tsla = MarketData("TSLA", start, stop)
     tsla_prccd = tsla.prccd()
-    tsla_daily_returns = tsla.daily_returns(tsla_prccd)
+    #tsla_daily_returns = tsla.daily_returns(tsla_prccd)
     print(tsla_prccd.head())
-    print(tsla_daily_returns.head())
-
+    #print(tsla_daily_returns.head())
+'''
     # Initialize Momentum Class
     tsla_mom = Momentum(tsla_prccd)
     tsla_moving_avg = tsla_mom.moving_averages()
@@ -46,3 +46,4 @@ if __name__ == '__main__':
     # EMA
     amzn_ema = amzn_mom.ewm("Adj Close", 0.5)
     print(amzn_ema)
+'''

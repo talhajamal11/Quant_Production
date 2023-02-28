@@ -13,15 +13,9 @@ class MarketData:
     def prccd(self):
         # This function returns a dataframe for the pricing and volume data for a single ticker
         price_df = yf.download(self.tic, self.start, self.stop)
-        price_df.dropna(inplace=True)
+        price_df["Daily Returns"] = price_df["Adj Close"].pct_change()
+        price_df["Daily Log Returns"] = np.log(price_df["Adj Close"] / price_df["Adj Close"].shift(1))
+        price_df["Cumulative Returns"] = ((price_df["Daily Returns"]) + 1).cumprod()
+        price_df["Annualized Volatility"] = price_df["Daily Log Returns"].rolling(252).std() * np.sqrt(252)
+        #price_df.dropna(inplace=True)
         return price_df
-
-    def daily_returns(self, df):
-        # Create a dataframe for the return statistics of a provided dataframe
-        returns = pd.DataFrame()
-        returns["Daily Returns"] = df["Adj Close"].pct_change()
-        returns["Daily Log Returns"] = np.log(df["Adj Close"] / df["Adj Close"].shift(1))
-        returns["Cumulative Returns"] = ((returns["Daily Returns"]) + 1).cumprod()
-        returns["Annualized Volatility"] = returns["Daily Log Returns"].rolling(252).std() * np.sqrt(252)
-        returns.dropna(inplace=True)
-        return returns

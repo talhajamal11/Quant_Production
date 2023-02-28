@@ -31,6 +31,7 @@ class Momentum:
     def RSI(self, n):
         RSI = pd.DataFrame()
         # Calculate Rolling Gains
+        RSI["positive gains"] = self.df["Adj Close"].rolling(n).query()
         if self.df["Adj Close"] > self.df["Adj Close"].shift(1):
             rolling_gains = 10
         else :
