@@ -27,13 +27,24 @@ class Momentum:
         mom_df.dropna(inplace=True)
         return mom_df
 
+    def rsi(self, periods, ewm=True):
 
-    def RSI(self, n):
-        RSI = pd.DataFrame()
-        # Calculate Rolling Gains
-        RSI["positive gains"] = self.df["Adj Close"].rolling(n).query()
-        if self.df["Adj Close"] > self.df["Adj Close"].shift(1):
-            rolling_gains = 10
-        else :
-            rolling_losses = 10
-        return RSI
+        # Calculate Difference in Daily Prices
+        rsi_diff = self.df["Adj Close"].diff()
+
+        # Create 2 different Positive and Negative Gains Series
+        up = rsi_diff.clip(lower=0)
+        down = rsi_diff.clip(upper=0)
+
+        if ewm:
+            # Use Exponential Moving Average
+            ma_up = up.ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
+            ma_down = down.ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
+        else:
+            ma_up = up.rolling(window=periods).mean()
+            ma_down = down.rolling(window=periods).mean()
+
+        rsi = ma_up/ma_down
+        rsi = 100 - (100/(1 + rsi))
+
+        return rsi

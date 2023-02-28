@@ -14,9 +14,15 @@ if __name__ == '__main__':
     # Load Market Data into Pricing and Return Tables
     tsla = MarketData("TSLA", start, stop)
     tsla_prccd = tsla.prccd()
-    #tsla_daily_returns = tsla.daily_returns(tsla_prccd)
-    print(tsla_prccd.head())
-    #print(tsla_daily_returns.head())
+    # tsla_daily_returns = tsla.daily_returns(tsla_prccd)
+    # print(tsla_prccd.head())
+    # print(tsla_daily_returns.head())
+
+    tsla_mom = Momentum(tsla_prccd)
+    tsla_rsi = tsla_mom.rsi(14, False)
+    print(tsla_rsi.tail(40))
+
+
 '''
     # Initialize Momentum Class
     tsla_mom = Momentum(tsla_prccd)
