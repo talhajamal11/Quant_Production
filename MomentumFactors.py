@@ -29,22 +29,28 @@ class Momentum:
 
     def rsi(self, periods, ewm=True):
 
+        rsi = pd.DataFrame()
+
+        # Adding Daily Returns to RSI Dataframe
+        rsi["Adj Close"] = self.df["Adj Close"]
+
         # Calculate Difference in Daily Prices
-        rsi_diff = self.df["Adj Close"].diff()
+        rsi["diff"] = rsi["Adj Close"].diff()
 
-        # Create 2 different Positive and Negative Gains Series
-        up = rsi_diff.clip(lower=0)
-        down = rsi_diff.clip(upper=0)
+        # Create 2 different Positive and Negative Gains Series - negative gains have to be absolute
+        rsi["up"] = rsi["diff"].clip(lower=0)
+        rsi["down"] = rsi["diff"].clip(upper=0).abs()
 
+        # Check if we want RSI to use ewm or sma
         if ewm:
             # Use Exponential Moving Average
-            ma_up = up.ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
-            ma_down = down.ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
+            rsi["ma_up"] = rsi["up"].ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
+            rsi["ma_down"] = rsi["down"].ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
         else:
-            ma_up = up.rolling(window=periods).mean()
-            ma_down = down.rolling(window=periods).mean()
+            rsi["ma_up"]= rsi["up"].rolling(window=periods).mean()
+            rsi["ma_down"] = rsi["down"].rolling(window=periods).mean()
 
-        rsi = ma_up/ma_down
-        rsi = 100 - (100/(1 + rsi))
+        rsi["1st Step"] = rsi["ma_up"]/rsi["ma_down"]
+        rsi["RSI"] = 100 - (100/(1 + rsi["1st Step"]))
 
         return rsi

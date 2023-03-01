@@ -12,44 +12,12 @@ if __name__ == '__main__':
     stop = '2023/01/22'
 
     # Load Market Data into Pricing and Return Tables
-    tsla = MarketData("TSLA", start, stop)
-    tsla_prccd = tsla.prccd()
+    JPM = MarketData("JPM", start, stop)
+    JPM_PRCCD = JPM.prccd()
     # tsla_daily_returns = tsla.daily_returns(tsla_prccd)
     # print(tsla_prccd.head())
     # print(tsla_daily_returns.head())
 
-    tsla_mom = Momentum(tsla_prccd)
-    tsla_rsi = tsla_mom.rsi(14, False)
-    print(tsla_rsi.tail(40))
-
-
-'''
-    # Initialize Momentum Class
-    tsla_mom = Momentum(tsla_prccd)
-    tsla_moving_avg = tsla_mom.moving_averages()
-    print(tsla_moving_avg.head())
-    tsla_momentum_factors = tsla_mom.momentum_factors()
-    print(tsla_momentum_factors.head())
-
-    # EMA
-    ema = tsla_mom.ewm("Adj Close", 0.5)
-    print(ema)
-
-    # Load Market Data into Pricing and Return Tables
-    amzn = MarketData("AMZN", start, stop)
-    amzn_prccd = amzn.prccd()
-    amzn_daily_returns = amzn.daily_returns(amzn_prccd)
-    print(amzn_prccd.head())
-    print(amzn_daily_returns.head())
-
-    # Initialize Momentum Class
-    amzn_mom = Momentum(amzn_prccd)
-    amzn_moving_avg = amzn_mom.moving_averages()
-    print(amzn_moving_avg.head())
-    amzn_momentum_factors = amzn_mom.momentum_factors()
-    print(amzn_momentum_factors.head())
-
-    # EMA
-    amzn_ema = amzn_mom.ewm("Adj Close", 0.5)
-    print(amzn_ema)
-'''
+    JPM_MOM = Momentum(JPM_PRCCD)
+    JPM_RSI_SMA = JPM_MOM.rsi(periods=14, ewm=False)
+    JPM_RSI_EWM = JPM_MOM.rsi(periods=14, ewm=True)

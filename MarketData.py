@@ -17,5 +17,5 @@ class MarketData:
         price_df["Daily Log Returns"] = np.log(price_df["Adj Close"] / price_df["Adj Close"].shift(1))
         price_df["Cumulative Returns"] = ((price_df["Daily Returns"]) + 1).cumprod()
         price_df["Annualized Volatility"] = price_df["Daily Log Returns"].rolling(252).std() * np.sqrt(252)
-        #price_df.dropna(inplace=True)
+        # price_df.dropna(inplace=True)
         return price_df
