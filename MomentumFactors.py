@@ -5,7 +5,7 @@ class Momentum:
     def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def moving_averages(self):
+    def moving_averages(self) -> pd.DataFrame:
         # Calculate 21D and 200D Moving Averages
         m_avg = pd.DataFrame()
         m_avg["Adj Close"] = self.df["Adj Close"]
@@ -14,14 +14,14 @@ class Momentum:
         m_avg.dropna(inplace=True)
         return m_avg
 
-    def momentum_factors(self):
+    def momentum_factors(self) -> pd.DataFrame:
         mom_df = pd.DataFrame()
         mom_df["12M-1M Momentum"] = self.df["Adj Close"].shift(21) / self.df["Adj Close"].shift(252)
         mom_df["12M-2M Momentum"] = self.df["Adj Close"].shift(42) / self.df["Adj Close"].shift(252)
         mom_df.dropna(inplace=True)
         return mom_df
 
-    def rsi(self, periods, ewm=True):
+    def rsi(self, periods: int, ewm: bool = True) -> pd.DataFrame:
 
         rsi = pd.DataFrame()
 

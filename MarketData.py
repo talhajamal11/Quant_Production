@@ -10,7 +10,7 @@ class MarketData:
         self.start = dt.datetime.strptime(start, '%Y/%m/%d')
         self.stop = dt.datetime.strptime(stop, '%Y/%m/%d')
 
-    def prccd(self):
+    def prccd(self) -> pd.DataFrame:
         # This function returns a dataframe for the pricing and volume data for a single ticker
         price_df = yf.download(self.tic, self.start, self.stop)
         price_df["Daily Returns"] = price_df["Adj Close"].pct_change()
