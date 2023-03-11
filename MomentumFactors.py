@@ -2,34 +2,50 @@ import pandas as pd
 
 
 class Momentum:
+    """
+    This Class has functions that return DataFrames with moving averages and momentum factors
+    """
     def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def moving_averages(self) -> pd.DataFrame:
+    def moving_averages(self, price_col: str) -> pd.DataFrame:
+        """
+        The only input needed for this function is the pricing column of the DataFrame
+        """
+
         # Calculate 21D and 200D Moving Averages
         m_avg = pd.DataFrame()
-        m_avg["Adj Close"] = self.df["Adj Close"]
-        m_avg["21D SMA"] = self.df["Adj Close"].rolling(21).mean()
-        m_avg["200D SMA"] = self.df["Adj Close"].rolling(252).mean()
+        m_avg[price_col] = self.df[price_col]
+        m_avg["21D SMA"] = self.df[price_col].rolling(21).mean()
+        m_avg["200D SMA"] = self.df[price_col].rolling(252).mean()
         m_avg.dropna(inplace=True)
+
         return m_avg
 
-    def momentum_factors(self) -> pd.DataFrame:
+    def momentum_factors(self, price_col: str) -> pd.DataFrame:
+        """
+        The only input needed for this function is the pricing column of the DataFrame
+        """
         mom_df = pd.DataFrame()
-        mom_df["12M-1M Momentum"] = self.df["Adj Close"].shift(21) / self.df["Adj Close"].shift(252)
-        mom_df["12M-2M Momentum"] = self.df["Adj Close"].shift(42) / self.df["Adj Close"].shift(252)
+        mom_df["12M-1M Momentum"] = self.df[price_col].shift(21) / self.df[price_col].shift(252)
+        mom_df["12M-2M Momentum"] = self.df[price_col].shift(42) / self.df[price_col].shift(252)
         mom_df.dropna(inplace=True)
+
         return mom_df
 
-    def rsi(self, periods: int, ewm: bool = True) -> pd.DataFrame:
-
+    def rsi(self, periods: int, price_col: str, ewm: bool = True) -> pd.DataFrame:
+        """
+        The only input needed for this function is the pricing column, periods back to calculate RSI for,
+        and whether Exponential Weighted Mean is supposed to be used or a Simple Moving Average - True indicates
+        EWM and False indicates SMA
+        """
         rsi = pd.DataFrame()
 
         # Adding Daily Returns to RSI Dataframe
-        rsi["Adj Close"] = self.df["Adj Close"]
+        rsi[price_col] = self.df[price_col]
 
         # Calculate Difference in Daily Prices
-        rsi["diff"] = rsi["Adj Close"].diff()
+        rsi["diff"] = rsi[price_col].diff()
 
         # Create 2 different Positive and Negative Gains Series - negative gains have to be absolute
         rsi["up"] = rsi["diff"].clip(lower=0)

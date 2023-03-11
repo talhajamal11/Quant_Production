@@ -1,6 +1,6 @@
 # Importing Relevant Packages
 import pandas as pd
-from MarketData import MarketData
+from MarketData import MarketDataYFinance
 from MomentumFactors import Momentum
 
 # Configurations of Libraries
@@ -12,12 +12,9 @@ if __name__ == '__main__':
     stop = '2023/01/22'
 
     # Load Market Data into Pricing and Return Tables
-    JPM = MarketData("JPM", start, stop)
-    JPM_PRCCD = JPM.prccd()
-    # tsla_daily_returns = tsla.daily_returns(tsla_prccd)
-    # print(tsla_prccd.head())
-    # print(tsla_daily_returns.head())
+    JPM = MarketDataYFinance("JPM", start, stop)
+    JPM_PRCCD = JPM.prccd(price_col="Adj Close")
 
     JPM_MOM = Momentum(JPM_PRCCD)
-    JPM_RSI_SMA = JPM_MOM.rsi(periods=14, ewm=False)
-    JPM_RSI_EWM = JPM_MOM.rsi(periods=14, ewm=True)
+    JPM_RSI_SMA = JPM_MOM.rsi(periods=14, price_col="Adj Close", ewm=False)
+    JPM_RSI_EWM = JPM_MOM.rsi(periods=14, price_col="Adj Close", ewm=True)
