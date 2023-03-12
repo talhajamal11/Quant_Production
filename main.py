@@ -7,18 +7,25 @@ from Plot import Ply
 # Configurations of Libraries
 pd.set_option('display.max_columns', 500)
 
-if __name__ == '__main__':
+
+def main():
     # Specify Ticker and Start/Stop Dates
     start = '2022/01/01'
     stop = '2023/01/22'
 
     # Load Market Data into Pricing and Return Tables
-    JPM = MarketDataYFinance("JPM", start, stop)
-    JPM_PRCCD = JPM.prccd(price_col="Adj Close")
+    jpm = MarketDataYFinance("JPM", start, stop)
+    jpm_prccd = jpm.prccd(price_col="Adj Close")
 
-    JPM_MOM = Momentum(JPM_PRCCD)
-    JPM_RSI_SMA = JPM_MOM.rsi(periods=14, price_col="Adj Close", ewm=False)
-    JPM_RSI_EWM = JPM_MOM.rsi(periods=14, price_col="Adj Close", ewm=True)
+    jpm_mom = Momentum(jpm_prccd)
+    jpm_rsi_sma = jpm_mom.rsi(periods=14, price_col="Adj Close", ewm=False)
+    jpm_rsi_ewm = jpm_mom.rsi(periods=14, price_col="Adj Close", ewm=True)
 
-    plot = Ply(JPM_PRCCD)
+    plot = Ply(jpm_prccd)
     plot = plot.line_chart(y_axis='Adj Close')
+
+    return None
+
+
+if __name__ == '__main__':
+    main()
