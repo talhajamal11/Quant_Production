@@ -2,6 +2,7 @@
 import pandas as pd
 from MarketData import MarketDataYFinance
 from MomentumFactors import Momentum
+from Plot import Ply
 
 # Configurations of Libraries
 pd.set_option('display.max_columns', 500)
@@ -18,3 +19,6 @@ if __name__ == '__main__':
     JPM_MOM = Momentum(JPM_PRCCD)
     JPM_RSI_SMA = JPM_MOM.rsi(periods=14, price_col="Adj Close", ewm=False)
     JPM_RSI_EWM = JPM_MOM.rsi(periods=14, price_col="Adj Close", ewm=True)
+
+    plot = Ply(JPM_PRCCD)
+    plot = plot.line_chart(y_axis='Adj Close')
