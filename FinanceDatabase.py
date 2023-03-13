@@ -40,8 +40,12 @@ class Equities:
         return list(fd.Equities().options('exchange'))
 
 
-if __name__ == '__main__':
+def main():
     eq = Equities()
-    eq
+    print(eq.sectors())
+
+
+if __name__ == '__main__':
+    main()
 
 
