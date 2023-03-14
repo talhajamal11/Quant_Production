@@ -9,43 +9,75 @@ class Equities:
     def __repr__(self):
         return f'Country: {self.country}'
 
-    def countries(self):
+    @staticmethod
+    def countries():
         """
         Obtain ALL countries
         """
         return list(fd.Equities().options('country'))
 
-    def sectors(self):
+    @staticmethod
+    def sectors():
         """
         Obtain ALL Sectors
         """
         return list(fd.Equities().options('sector'))
 
-    def industry_group(self):
+    @staticmethod
+    def industry_group():
         """
         Obtain ALL Industry Groups
         """
         return list(fd.Equities().options('industry_group'))
 
-    def industry(self):
+    @staticmethod
+    def industry():
         """
         Obtain ALL Industries
         """
         return list(fd.Equities().options('industry'))
 
-    def exchange(self):
+    @staticmethod
+    def exchange():
         """
         Obtain ALL Exchanges
         """
         return list(fd.Equities().options('exchange'))
 
+    def equities_country(self):
+        return fd.Equities().search(country=self.country)
+
+    @staticmethod
+    def equities_exchange(exchange: str):
+        return fd.Equities().search(exchange=exchange)
+
 
 def main():
-    eq = Equities()
-    print(eq.sectors())
+    eq = Equities(country='USA')
+    nyse = eq.equities_exchange(exchange='NYSE')
+    print(type(nyse))
 
 
 if __name__ == '__main__':
-    main()
+    eq = Equities(country='United States')
 
+    countries = eq.countries()
+    # print(len(countries))
 
+    sectors = eq.sectors()
+    # print(len(sectors))
+
+    industry = eq.industry()
+    # print(len(industry))
+
+    industry_groups = eq.industry_group()
+    # print(len(industry_groups))
+
+    exchanges = eq.exchange()
+    # print(len(exchanges))
+
+    LSE = eq.equities_exchange(exchange='LSE')
+
+    USA = eq.equities_country()
+
+    NYSE = eq.equities_exchange(exchange='NYQ')
