@@ -28,7 +28,7 @@ class Ply:
     def multiple_line_chart(self,
                             list_series: list) -> go.Figure:
         for line in list_series:
-            fig.add_trace(go.Scatter(x=self.df.index,
+            fig = fig.add_trace(go.Scatter(x=self.df.index,
                                      y=line
                                      )
                           )

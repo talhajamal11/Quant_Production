@@ -13,11 +13,9 @@ def main():
     # Specify Ticker and Start/Stop Dates
     start = '2020/01/01'
     stop = '2022/12/31'
-
-
-
     return None
 
 
 if __name__ == '__main__':
     main()
+    print("Finished Executing Code")
