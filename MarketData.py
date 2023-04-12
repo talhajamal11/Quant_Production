@@ -33,7 +33,6 @@ class MarketDataYFinance:
         price_df = yf.download(self.tic, self.start, self.stop)
         price_df["Daily Returns"] = price_df[price_col].pct_change()
         price_df["Daily Log Returns"] = np.log(price_df[price_col] / price_df[price_col].shift(1))
-        price_df["Annualized Returns"] = (np.power((1 + (price_df["Daily Returns"])), 252)) - 1
         price_df["Cumulative Returns"] = (1 + (price_df["Daily Returns"])).cumprod()
         price_df["Annualized Volatility"] = price_df["Daily Log Returns"].rolling(252).std() * np.sqrt(252)
 

@@ -1,9 +1,10 @@
 import pandas as pd
 from plotly import graph_objects as go
 from plotly.subplots import make_subplots as ms
+from matplotlib import pyplot as plt
 
 
-class Ply:
+class Plots:
     def __init__(self, dataframe: pd.DataFrame) -> None:
         self.df = dataframe
 
@@ -33,3 +34,24 @@ class Ply:
                                      )
                           )
         return fig
+
+    def plot_macd(self,
+                  macd: pd.Series,
+                  signal: pd.Series,
+                  hist: pd.Series,
+                  price: str = 'Adj Close') -> plt.plot:
+        fig_1 = plt.subplot2grid((8, 1), (0, 0), rowspan=5, colspan=1)
+        fig_1.plot(self.df[price])
+
+        fig_2 = plt.subplot2grid((8, 1), (5, 0), rowspan=3, colspan=1)
+        fig_2.plot(macd, color='grey', linewidth=1.5, label='MACD')
+        fig_2.plot(signal, color='skyblue', linewidth=1.5, label='SIGNAL')
+
+        for i in range(len(self.df[price])):
+            if str(hist[i])[0] == '-':
+                fig_2.bar(self.df[price].index[i], hist[i], color='#ef5350')
+            else:
+                fig_2.bar(self.df[price].index[i], hist[i], color='#26a69a')
+
+        plt.legend(loc='lower right')
+        return None
