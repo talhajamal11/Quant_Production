@@ -13,6 +13,11 @@ def main():
     # Specify Ticker and Start/Stop Dates
     start = '2020/01/01'
     stop = '2022/12/31'
+
+    market_data = MarketDataYFinance("TSLA", start, stop)
+    price_df = market_data.price_df()
+    print(price_df)
+
     return None
 
 
